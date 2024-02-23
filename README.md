@@ -3,7 +3,6 @@ If a dental plan gets updated then all it's subscribers subscribed to a particul
 
 
 curl --location --request PUT 'http://localhost:8080/dental-plan' \
---header 'authorization: dHJ1ZWhlcmJAd2FyZXNob3Vl' \
 --header 'Content-Type: application/json' \
 --data-raw '{
   "planId": 101,
