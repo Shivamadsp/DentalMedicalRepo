@@ -1,0 +1,91 @@
+Sample request for update API
+
+{
+  "planId": 101,
+  "standardDeductible": 100.0,
+  "preventiveFlag": true,
+  "preventiveDeductible": 0.0,
+  "basicFlag": false,
+  "basicDeductible": 100.0,
+  "majorFlag": true,
+  "majorDeductible": 300.0,
+  "orthoFlag": true,
+  "orthoDeductible": 1500.0,
+  "otherFlag": false,
+  "otherDeductible": 100.0
+}
+
+--------------------------------------------------------------------------
+
+Dental plan JSON (JSON Already present in the db)
+{
+  "planId": 1,
+  "carrier": {
+    "carrierId": 1,
+    "carrierName": "XYZ Insurance"
+  },
+  "planName": "Plan A",
+  "standardDeductible": 100.0,
+  "preventiveFlag": true,
+  "preventiveDeductible": 0.0,
+  "basicFlag": false,
+  "basicDeductible": 100.0,
+  "majorFlag": true,
+  "majorDeductible": 500.0,
+  "orthoFlag": true,
+  "orthoDeductible": 1000.0,
+  "otherFlag": false,
+  "otherDeductible": 100.0
+}
+
+--------------------------
+
+Dental plan JSON (JSON input from the UI) -> Override this plan id in dental_plan table with this data
+{
+  "planId": 1,
+  "carrier": {
+    "carrierId": 1,
+    "carrierName": "XYZ Insurance"
+  },
+  "planName": "Plan A",
+  "standardDeductible": 100.0,
+  "preventiveFlag": true,
+  "preventiveDeductible": 0.0,
+  "basicFlag": false,
+  "basicDeductible": 100.0,
+  "majorFlag": true,
+  "majorDeductible": 300.0,
+  "orthoFlag": true,
+  "orthoDeductible": 1500.0,
+  "otherFlag": false,
+  "otherDeductible": 100.0
+}
+
+---------------------------
+
+Dental plan JSON (JSON input from the UI) -> To update for Subscriber (A mediator pojo class to make all the calculations)
+{
+  "planId": 1,
+  "preventiveDeductible": 0.0,
+  "basicDeductible": 0.0,
+  "majorDeductible": -200.0,
+  "orthoDeductible": 500.0,
+  "otherDeductible": 0.0
+}
+
+
+
+Subscriber JSON from db: (If after addition amount coming as -ve then make it 0)
+
+{
+  "subscriberId": 1,
+  "preventiveRemaining": 0.0,	-> Add the preventiveDeductible + preventiveRemaining = 0 + 0 = 0
+  "basicRemaining": 100.0,		-> Add the basicDeductible + basicRemaining = 0 + 100 = 100
+  "majorRemaining": 100.0,		-> Add the majorDeductible + majorRemaining = 100 - 200 = -100 = 0 
+  "orthoRemaining": 1000.0,		-> Add the orthoDeductible + orthoRemaining = 1000 + 500 = 1500
+  "otherRemaining": 100.0		-> Add the otherDeductible + otherRemaining = 100 + 0 = 100
+}
+
+
+
+
